@@ -33,6 +33,7 @@ class Scheduler {
             }
             randInt(Tn_second);
         }
+        return 0;
     }
     public void randInt(int[] input) {
         Random rand = new Random();

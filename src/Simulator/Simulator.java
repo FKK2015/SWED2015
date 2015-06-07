@@ -23,7 +23,7 @@ public class Simulator {
             if(scheduler.schedule(timer.getTime(), state) == 1){
                 //firstF.addContent();
             }
-            else{
+            else if ((scheduler.schedule(timer.getTime(), state) == 2)){
                 //secondF.addContent();
             }
         }
