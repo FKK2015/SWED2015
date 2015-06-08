@@ -12,16 +12,24 @@ package Simulator;
 class Floor {
     private int name;
     private Passenger content;
+    private FloorButton fb;
+    private State st;
     
-    
-    public Floor(int n){
+    public Floor(int n, State st){
         name = n;
+        fb = new FloorButton(n);
+        this.st = st;
     }
-    public void addContent(Passenger p, State st){
+    public void addContent(Passenger p, LogicController lc){
         content = p;
         st.changeFloorContent(name);
+        lc.processButton(this, fb);
     }
     public Passenger getContent(){
         return content;
+    }
+    public void clearContent(){
+        content = null;
+        st.changeFloorContent(name);
     }
 }

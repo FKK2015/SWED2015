@@ -15,6 +15,11 @@ import java.util.logging.Logger;
  */
 class TimeCounter {
     private int currentTime = 0;
+    private State st;
+    
+    public TimeCounter(State st){
+        this.st = st;
+    }
     
     public void count1Sec(){
         try {

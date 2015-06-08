@@ -14,22 +14,24 @@ import java.util.Random;
 class Scheduler {
     private int[] Tn_first;
     private int[] Tn_second;
+    private State st;
     
-    public Scheduler(){
+    public Scheduler(State st){
         Tn_first = new int[] {5,1,20};
         Tn_second = new int[] {5,1,20};
+        this.st = st;
     }
     
-    public int schedule(int t, State st){
+    public int schedule(int t){
         int temp = 0;
         if(t == Tn_first[1]){
-            if(!st.getFloorContent()){
+            if(!st.getFloorContent(1)){
                 temp++;
             }
             randInt(Tn_first);
         }
         if(t == Tn_second[1]){
-            if(!st.getFloorContent()){
+            if(!st.getFloorContent(2)){
                 temp += 2;
             }
             randInt(Tn_second);
@@ -46,8 +48,5 @@ class Scheduler {
 }
     public boolean checkFloor(Floor f){
         return true;
-    }
-    public Passenger createPassenger(int p){
-        return null;
     }
 }

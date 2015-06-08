@@ -11,33 +11,43 @@ package Simulator;
  */
 public class Simulator {
     
-    private Floor firstF = new Floor(1);
-    private Floor secondF = new Floor(2);
-    private TimeCounter timer = new TimeCounter();
-    private Scheduler scheduler = new Scheduler();
+    private Floor firstF;
+    private Floor secondF;
+    private TimeCounter timer;
+    private Scheduler scheduler;
     private State state = new State();
+    private LogicController logicC;
+    
+    public Simulator(){
+        firstF = new Floor(1,state);
+        secondF = new Floor(2,state);
+        timer = new TimeCounter(state);
+        scheduler = new Scheduler(state);
+        logicC = new LogicController(state);
+    }
     
     public void run(){
         while(true){
             timer.count1Sec();
-            switch (scheduler.schedule(timer.getTime(), state)){
+            switch (scheduler.schedule(timer.getTime())){
                 case 1:
-                    Passenger p = new Passenger(1,2);
-                    firstF.addContent(p, state);
+                    Passenger p = new Passenger(2,1);
+                    firstF.addContent(p, logicC);
                     break;
                 case 2:
-                    p = new Passenger(2,1);
-                    secondF.addContent(p, state);
+                    p = new Passenger(1,2);
+                    secondF.addContent(p, logicC);
                     break;
                 case 3:
-                    p = new Passenger(1,2);
-                    firstF.addContent(p, state);
                     p = new Passenger(2,1);
-                    secondF.addContent(p, state);
+                    firstF.addContent(p, logicC);
+                    p = new Passenger(1,2);
+                    secondF.addContent(p,logicC);
                     break;
                 default:
                     break;
             }
+            logicC.move();
         }
             
     }
