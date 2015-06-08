@@ -17,4 +17,11 @@ class Floor {
     public Floor(int n){
         name = n;
     }
+    public void addContent(Passenger p, State st){
+        content = p;
+        st.changeFloorContent(name);
+    }
+    public Passenger getContent(){
+        return content;
+    }
 }
