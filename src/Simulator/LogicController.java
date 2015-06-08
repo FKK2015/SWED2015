@@ -53,6 +53,7 @@ class LogicController {
     }
     public void moveUP(){
         if(timer > 0){
+            System.out.println("Moving up..." + timer);
             timer--;
         } else{
             timer = 5;
@@ -67,6 +68,7 @@ class LogicController {
     }
     public void moveDOWN(){
         if(timer > 0){
+            System.out.println("Moving down..." + timer);
             timer--;
         } else{
             timer = 5;
