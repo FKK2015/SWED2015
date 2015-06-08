@@ -14,8 +14,7 @@ class State {
     private boolean bellState = false;
     private boolean floor1ButtonState = false;
     private boolean floor2ButtonState= false;
-    private boolean floor1Content = false;
-    private boolean floor2Content = false;
+    private boolean[] floorContent = new boolean[2];
     private boolean liftContent = false;
     private int liftPos = 0;
     private boolean liftButtonTo1State = false;
@@ -37,5 +36,23 @@ class State {
     public void changeF2buttonState(){
         floor2ButtonState ^= true;
     }     
-    public      
+    public void changeFloorContent(int i){
+        floorContent[i-1] ^= true;
+    } 
+    public void changeLiftPos(int p){
+        liftPos = p;
+    }
+    public void changeLiftContent(){
+        liftContent ^= true;
+    }
+    public void changeLbuttonTo1State(){
+        liftButtonTo1State ^= true;
+    }
+    public void changeLbuttonTo2State(){
+        liftButtonTo2State ^= true;
+    }
+    public boolean getFloorContent(int i){
+        return floorContent[i-1];//
+    }
+    
 }

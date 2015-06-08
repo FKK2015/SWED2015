@@ -17,4 +17,16 @@ class Passenger {
         destination = d;
         position = p;
     }
+    public void setPosition(int p){
+        position = p;
+    }
+    public void setDestination(int d){
+        destination = d;
+    }
+    public int getPosition(){
+        return position;
+    }
+    public int getDestination(){
+        return destination;
+    }
 }

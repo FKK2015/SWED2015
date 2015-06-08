@@ -21,19 +21,20 @@ class Scheduler {
     }
     
     public int schedule(int t, State st){
+        int temp = 0;
         if(t == Tn_first[1]){
-            if(!st.checkFloor1()){
-                return 1;
+            if(!st.getFloorContent()){
+                temp++;
             }
             randInt(Tn_first);
         }
         if(t == Tn_second[1]){
-            if(!st.checkFloor2()){
-                return 2;
+            if(!st.getFloorContent()){
+                temp += 2;
             }
             randInt(Tn_second);
-        }//haha
-        return 0;
+        }
+        return temp;
     }
     public void randInt(int[] input) {
         Random rand = new Random();
