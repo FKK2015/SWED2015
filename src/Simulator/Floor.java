@@ -17,13 +17,14 @@ class Floor {
     
     public Floor(int n, State st){
         name = n;
-        fb = new FloorButton(n);
+        fb = new FloorButton(n,st);
         this.st = st;
     }
     public void addContent(Passenger p, LogicController lc){
         content = p;
         st.changeFloorContent(name);
-        lc.processButton(this, fb);
+        fb.press(fb);
+        lc.processButton(this);
     }
     public Passenger getContent(){
         return content;
@@ -31,5 +32,8 @@ class Floor {
     public void clearContent(){
         content = null;
         st.changeFloorContent(name);
+    }
+    public FloorButton getFB(){
+        return fb;
     }
 }

@@ -12,6 +12,10 @@ package Simulator;
 class LiftButton extends Button{
     private int destination;
     
+    public LiftButton(int d, State st){
+        destination = d;
+        this.st = st;
+    }
     public void setDestination(int d){
         destination = d;
     }

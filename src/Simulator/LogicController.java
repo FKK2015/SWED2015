@@ -16,12 +16,16 @@ class LogicController {
     private State st;
     private int timer = 5;
     private int direction;
+    private LiftButton goTo1;
+    private LiftButton goTo2;
     
     public LogicController(State st){
         this.st = st;
+        goTo1 = new LiftButton(1,st);
+        goTo2 = new LiftButton(2,st);
     }
     
-    public void processButton(Floor f, FloorButton fb){
+    public void processButton(Floor f){
         myStack.push(f);
         System.out.println("Passenger at " + f.getContent().getPosition() + " in call queue.");
         if(timer == 5){
@@ -39,10 +43,19 @@ class LogicController {
             if(temp.getContent().getPosition() == st.getLiftPos()){
                 System.out.println("Oh, he is here...");
                 st.changeDoorState();
-                direction = temp.getContent().getDestination();
+                if(temp.getContent().getDestination() == 1){
+                    goTo1.press(goTo1);
+                    direction = goTo1.getDestination();
+                }else if(temp.getContent().getDestination() == 2){
+                    goTo2.press(goTo2);
+                    direction = goTo2.getDestination();
+                }else{
+                    System.out.println("Error!");
+                }
                 temp.clearContent();
                 st.changeLiftContent();
                 st.changeDoorState();
+                temp.getFB().unpress(temp.getFB());
                 move();
             }else{
                 System.out.println("Someone is waiting  but elsewhere...");
@@ -57,6 +70,7 @@ class LogicController {
             timer--;
         } else{
             timer = 5;
+            goTo2.unpress(goTo2);
             st.changeLiftPos(2);
             st.changeBellState();
             st.changeDoorState();
@@ -72,6 +86,7 @@ class LogicController {
             timer--;
         } else{
             timer = 5;
+            goTo1.unpress(goTo1);
             st.changeLiftPos(1);
             st.changeBellState();
             st.changeDoorState();

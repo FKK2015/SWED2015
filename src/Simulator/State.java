@@ -84,7 +84,7 @@ class State {
         liftButtonTo2State ^= true;
         if(liftButtonTo2State){
             System.out.println("Go to 2 pressed.");
-        }else System.out.println("Go to 2 pressed.");
+        }else System.out.println("Go to 2 unpressed.");
         print();
     }
     public boolean getFloorContent(int i){

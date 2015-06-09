@@ -12,8 +12,9 @@ package Simulator;
 class FloorButton extends Button{
     private int belongsTOfloor = 0;
     
-    public FloorButton(int f){
+    public FloorButton(int f, State st){
         belongsTOfloor = f;
+        this.st = st;
     }
     public int getFloor(){
         return belongsTOfloor;
