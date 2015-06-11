@@ -14,6 +14,9 @@ class Button {
     protected boolean illumination = false;
     protected State st;
     
+    public boolean getState(){
+        return state;
+    }
     public void press(FloorButton fb){
         illuminationON();
         statePressed();
@@ -59,15 +62,15 @@ class Button {
         }
     }
     public void illuminationON(){
-        illumination ^= true;
+        illumination |= true;
     }
     public void illuminationOFF(){
-        illumination ^= false;
+        illumination &= false;
     }
     public void statePressed(){
-        state ^= true;
+        state |= true;
     }
     public void stateUnpressed(){
-        state ^= false;
+        state &= false;
     }
 }

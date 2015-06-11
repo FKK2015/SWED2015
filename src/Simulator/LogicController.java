@@ -15,7 +15,7 @@ class LogicController {
     private Stack myStack = new Stack();
     private State st;
     private int timer = 5;
-    private int direction;
+    private int direction = 0;
     private LiftButton goTo1;
     private LiftButton goTo2;
     
@@ -27,47 +27,51 @@ class LogicController {
     
     public void processButton(Floor f){
         myStack.push(f);
-        System.out.println("Passenger at " + f.getContent().getPosition() + " in call queue.");
+        //System.out.println("Passenger at " + f.getContent().getPosition() + " in call queue.");
         if(timer == 5){
             processStack();
         }
     }
-    public void processButton(LiftButton lb, State st){
-        
-    }
+    //public void processButton(LiftButton lb){}
     public void processStack(){
-        System.out.println("Checking if someone is waiting");
+        //System.out.println("Checking if someone is waiting");
         if(!myStack.isEmpty()){
-            System.out.println("Someone is waiting...");
-            Floor temp = (Floor) myStack.pop();
-            if(temp.getContent().getPosition() == st.getLiftPos()){
-                System.out.println("Oh, he is here...");
+            //System.out.println("Someone is waiting...");
+            Floor tempFloor = (Floor) myStack.pop();
+            Passenger tempPassanger = tempFloor.getContent();
+            if(tempFloor.getContent().getPosition() == st.getLiftPos()){
+                //System.out.println("Oh, he is here...");
                 st.changeDoorState();
-                if(temp.getContent().getDestination() == 1){
+                if(tempFloor.getContent().getDestination() == 1){
+                    tempFloor.clearContent();
+                    st.changeLiftContent();
                     goTo1.press(goTo1);
                     direction = goTo1.getDestination();
-                }else if(temp.getContent().getDestination() == 2){
+                }else if(tempFloor.getContent().getDestination() == 2){
+                    tempFloor.clearContent();
+                    st.changeLiftContent();
                     goTo2.press(goTo2);
                     direction = goTo2.getDestination();
                 }else{
                     System.out.println("Error!");
                 }
-                temp.clearContent();
-                st.changeLiftContent();
                 st.changeDoorState();
-                temp.getFB().unpress(temp.getFB());
-                move();
+                tempFloor.getFB().unpress(tempFloor.getFB());
+                //move();
             }else{
-                System.out.println("Someone is waiting  but elsewhere...");
-                direction = temp.getContent().getPosition();
-                move();
+                //System.out.println("Someone is waiting  but elsewhere...");
+                direction = tempFloor.getContent().getPosition();
+                //move();
             }
+        }else{
+            direction = 0;
         }
     }
     public void moveUP(){
         if(timer > 0){
-            System.out.println("Moving up..." + timer);
+            //System.out.println("Moving up..." + timer);
             timer--;
+            st.changeLiftExactLocation(1);
         } else{
             timer = 5;
             goTo2.unpress(goTo2);
@@ -82,8 +86,9 @@ class LogicController {
     }
     public void moveDOWN(){
         if(timer > 0){
-            System.out.println("Moving down..." + timer);
+            //System.out.println("Moving down..." + timer);
             timer--;
+            st.changeLiftExactLocation(-1);
         } else{
             timer = 5;
             goTo1.unpress(goTo1);
@@ -97,11 +102,13 @@ class LogicController {
         }
     }
     public void move(){
-        if(direction == 2){
-            moveUP();
-        }
-        else if(direction == 1){
-            moveDOWN();
+        if(goTo1.getState() || goTo2.getState()){
+            if(direction == 2){
+                moveUP();
+            }
+            else if(direction == 1){
+                moveDOWN();
+            }
         }
     }
 }

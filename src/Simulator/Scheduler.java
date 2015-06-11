@@ -17,8 +17,10 @@ class Scheduler {
     private State st;
     
     public Scheduler(State st){
-        Tn_first = new int[] {5,1,20};
-        Tn_second = new int[] {5,1,20};
+        Tn_first = new int[] {5,0,20};
+        Tn_second = new int[] {5,0,20};
+        randInt(Tn_first);
+        randInt(Tn_second);
         this.st = st;
     }
     
@@ -38,7 +40,7 @@ class Scheduler {
         }
         return temp;
     }
-    public void randInt(int[] input) {
+    private void randInt(int[] input) {
         Random rand = new Random();
         int randomNum = rand.nextInt((input[2] - input[0]) + 1) + input[0];
         input[1] = randomNum;

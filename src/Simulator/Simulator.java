@@ -29,6 +29,7 @@ public class Simulator {
     public void run(){
         while(true){
             timer.count1Sec();
+            logicC.move();
             switch (scheduler.schedule(timer.getTime())){
                 case 1:
                     Passenger p = new Passenger(2,1);
@@ -47,7 +48,6 @@ public class Simulator {
                 default:
                     break;
             }
-            logicC.move();
         }
             
     }
