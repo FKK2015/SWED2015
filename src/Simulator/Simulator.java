@@ -43,7 +43,7 @@ public class Simulator {
                     p = new Passenger(2,1);
                     firstF.addContent(p, logicC);
                     p = new Passenger(1,2);
-                    secondF.addContent(p,logicC);
+                    secondF.addContent(p, logicC);
                     break;
                 default:
                     break;

@@ -5,6 +5,9 @@
  */
 package Simulator;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -24,6 +27,7 @@ class State {
     private boolean liftButtonTo1State = false;
     private boolean liftButtonTo2State = false;
     private int liftExactLocation = 0;
+    private int time = 0;
     
     private String emptyFloor = "       ";
     private String F1C = "       ";
@@ -51,7 +55,7 @@ class State {
             {emptySpaceBetweenFloors," "," ",emptySpaceLift," "," \n"},
             {emptySpaceBetweenFloors," "," ",emptySpaceLift," "," \n"},
             {"  "+F1C+"  "+liftPositionDisplay+F1B," "," ",emptySpaceLift," "," \n"},
-            {floorGround,"=","=","=======","=","=\n"},
+            {floorGround,"=","=","=======","=","="+time+"\n"},
                                 };
         picture[5-liftExactLocation][1] = leftDoor;
         picture[5-liftExactLocation][2] = bell;
@@ -64,33 +68,42 @@ class State {
                 System.out.print(picture1[j]);
             }
         }
+        System.out.println();
+        System.out.println("/////////////////////////////////");
+        System.out.println();
         try {
             TimeUnit.SECONDS.sleep(1);
         } catch (InterruptedException ex) {
             Logger.getLogger(State.class.getName()).log(Level.SEVERE, null, ex);
         }
-        System.out.println();
-        System.out.println("/////////////////////////////////");
-        System.out.println();
+        /*
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        try {
+            br.readLine();
+        } catch (IOException ex) {
+            Logger.getLogger(State.class.getName()).log(Level.SEVERE, null, ex);
+        }*/
     }
     public void changeLiftExactLocation(int i){
         liftExactLocation += i;
         print();
         //System.out.println("Lift at: "+liftExactLocation);
     }
-    public void changeDoorState(){
-        doorState ^= true;
-        if(doorState){
-            //System.out.println("Doors open.");
-            if(liftContent){
-                liftC = passanger;
-            }else{
-                liftC = emptySpaceLift;
-            }
+    public void openDoor(){
+        doorState = true;
+        //System.out.println("Doors open.");
+        if(liftContent){
+            liftC = passanger;
         }else{
-            //System.out.println("Doors close.");
-            liftC =  closedDoors;
+            liftC = emptySpaceLift;
         }
+        
+        print();
+    }
+    public void closeDoor(){
+        doorState = false;
+        //System.out.println("Doors close.");
+        liftC =  closedDoors;
         print();
     }
     public void changeBellState(){
@@ -104,44 +117,47 @@ class State {
         }
         print();
     }
-    public void changeF1buttonState(){
-        floor1ButtonState ^= true;
-        if(floor1ButtonState){
-            //System.out.println("Floor 1 button is pressed.");
-            F1B = "FB1";
+    public void F1buttonON(){
+        floor1ButtonState = true;
+        //System.out.println("Floor 1 button is pressed.");
+        F1B = "FB1";
+        print();
+    }
+    public void F1buttonOFF(){
+        floor1ButtonState = false;
+        //System.out.println("Floor 1 button is unpressed.");
+        F1B = "   ";
+        print();
+    }
+    public void F2buttonON(){
+        floor2ButtonState = true;
+        //System.out.println("Floor 2 button is pressed.");
+        F2B = "FB2";
+        print();
+    } 
+    public void F2buttonOFF(){
+        floor2ButtonState = false;
+        //System.out.println("Floor 2 button is unpressed.");
+        F2B = "   ";
+        print();
+    }
+    public void addFloorContent(int i){
+        floorContent[i-1] = true;
+        //System.out.println("Floor " + i + " has a passenger.");
+        if(i == 1){
+            F1C = passanger;
         }else{
-            //System.out.println("Floor 1 button is unpressed.");
-            F1B = "   ";
+            F2C = passanger;
         }
         print();
     }
-    public void changeF2buttonState(){
-        floor2ButtonState ^= true;
-        if(floor2ButtonState){
-            //System.out.println("Floor 2 button is pressed.");
-            F2B = "FB2";
+    public void removeFloorContent(int i){
+        floorContent[i-1] = false;
+        //System.out.println("Floor " + i + " is empty.");
+        if(i == 1){
+            F1C = emptyFloor;
         }else{
-            //System.out.println("Floor 2 button is unpressed.");
-            F2B = "   ";
-        }
-        print();
-    }     
-    public void changeFloorContent(int i){
-        floorContent[i-1] ^= true;
-        if(floorContent[i-1]){
-            //System.out.println("Floor " + i + " has a passenger.");
-            if(i == 1){
-                F1C = passanger;
-            }else{
-                F2C = passanger;
-            }
-        }else{
-            //System.out.println("Floor " + i + " is empty.");
-            if(i == 1){
-                F1C = emptyFloor;
-            }else{
-                F2C = emptyFloor;
-            }
+            F2C = emptyFloor;
         }
         print();
     } 
@@ -156,37 +172,40 @@ class State {
         }
         print();
     }
-    public void changeLiftContent(){
-        liftContent ^= true;
-        if(liftContent){
-            //System.out.println("Lift full.");
-            liftC = passanger;
-        }else{
-            //System.out.println("Lift empty.");
-            liftC = emptySpaceLift;
-        }
+    public void addLiftContent(){
+        liftContent = true;
+        //System.out.println("Lift full.");
+        liftC = passanger;
         print();
     }
-    public void changeLbuttonTo1State(){
-        liftButtonTo1State ^= true;
-        if(liftButtonTo1State){
-            //System.out.println("Go to 1 pressed.");
-            liftBut = "V";
-        }else{
-            //System.out.println("Go to 1 unpressed.");
-            liftBut = " ";
-        }
+    public void removeLiftContent(){
+        liftContent = false;
+        //System.out.println("Lift empty.");
+        liftC = emptySpaceLift;
         print();
     }
-    public void changeLbuttonTo2State(){
-        liftButtonTo2State ^= true;
-        if(liftButtonTo2State){
-            //System.out.println("Go to 2 pressed.");
-            liftBut = "A";
-        }else{
-            //System.out.println("Go to 2 unpressed.");
-            liftBut = " ";
-        }
+    public void LBto1ON(){
+        liftButtonTo1State = true;
+        //System.out.println("Go to 1 pressed.");
+        liftBut = "V";
+        print();
+    }
+    public void LBto1OFF(){
+        liftButtonTo1State = false;
+        //System.out.println("Go to 1 unpressed.");
+        liftBut = " ";
+        print();
+    }
+    public void LBto2ON(){
+        liftButtonTo2State = true;
+        //System.out.println("Go to 2 pressed.");
+        liftBut = "A";
+        print();
+    }
+    public void LBto2OFF(){
+        liftButtonTo2State = false;
+        //System.out.println("Go to 2 unpressed.");
+        liftBut = " ";
         print();
     }
     public boolean getFloorContent(int i){
@@ -194,6 +213,13 @@ class State {
     }
     public int getLiftPos(){
         return liftPos;
+    }
+    public void setTime(int t){
+        time = t;
+        print();
+    }
+    public boolean getDoorState(){
+        return doorState;
     }
     
 }

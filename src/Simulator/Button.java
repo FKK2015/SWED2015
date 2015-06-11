@@ -21,9 +21,9 @@ class Button {
         illuminationON();
         statePressed();
         if(fb.getFloor() == 1){
-            st.changeF1buttonState();
+            st.F1buttonON();
         }else if(fb.getFloor() == 2){
-            st.changeF2buttonState();
+            st.F2buttonON();
         }else{
             System.out.println("Error!");
         }
@@ -32,9 +32,9 @@ class Button {
         illuminationON();
         statePressed();
         if(lb.getDestination() == 1){
-            st.changeLbuttonTo1State();
+            st.LBto1ON();
         }else if(lb.getDestination() == 2){
-            st.changeLbuttonTo2State();
+            st.LBto2ON();
         }else{
             System.out.println("Error!");
         }
@@ -43,9 +43,9 @@ class Button {
         illuminationOFF();
         stateUnpressed();
         if(fb.getFloor() == 1){
-            st.changeF1buttonState();
+            st.F1buttonOFF();
         }else if(fb.getFloor() == 2){
-            st.changeF2buttonState();
+            st.F2buttonOFF();
         }else{
             System.out.println("Error!");
         }
@@ -54,23 +54,23 @@ class Button {
         illuminationOFF();
         stateUnpressed();
         if(lb.getDestination() == 1){
-            st.changeLbuttonTo1State();
+            st.LBto1OFF();
         }else if(lb.getDestination() == 2){
-            st.changeLbuttonTo2State();
+            st.LBto2OFF();
         }else{
             System.out.println("Error!");
         }
     }
     public void illuminationON(){
-        illumination |= true;
+        illumination = true;
     }
     public void illuminationOFF(){
-        illumination &= false;
+        illumination = false;
     }
     public void statePressed(){
-        state |= true;
+        state = true;
     }
     public void stateUnpressed(){
-        state &= false;
+        state = false;
     }
 }

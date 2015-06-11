@@ -22,7 +22,7 @@ class Floor {
     }
     public void addContent(Passenger p, LogicController lc){
         content = p;
-        st.changeFloorContent(name);
+        st.addFloorContent(name);
         fb.press(fb);
         lc.processButton(this);
     }
@@ -31,9 +31,12 @@ class Floor {
     }
     public void clearContent(){
         content = null;
-        st.changeFloorContent(name);
+        st.removeFloorContent(name);
     }
     public FloorButton getFB(){
         return fb;
+    }
+    public int getName(){
+        return name;
     }
 }

@@ -41,30 +41,34 @@ class LogicController {
             Passenger tempPassanger = tempFloor.getContent();
             if(tempFloor.getContent().getPosition() == st.getLiftPos()){
                 //System.out.println("Oh, he is here...");
-                st.changeDoorState();
+                if(!st.getDoorState()){
+                    st.openDoor();
+                }
                 if(tempFloor.getContent().getDestination() == 1){
                     tempFloor.clearContent();
-                    st.changeLiftContent();
+                    st.addLiftContent();
                     goTo1.press(goTo1);
                     direction = goTo1.getDestination();
                 }else if(tempFloor.getContent().getDestination() == 2){
                     tempFloor.clearContent();
-                    st.changeLiftContent();
+                    st.addLiftContent();
                     goTo2.press(goTo2);
                     direction = goTo2.getDestination();
                 }else{
                     System.out.println("Error!");
                 }
-                st.changeDoorState();
+                st.closeDoor();
                 tempFloor.getFB().unpress(tempFloor.getFB());
                 //move();
             }else{
                 //System.out.println("Someone is waiting  but elsewhere...");
                 direction = tempFloor.getContent().getPosition();
+                st.closeDoor();
                 //move();
             }
         }else{
             direction = 0;
+            st.closeDoor();
         }
     }
     public void moveUP(){
@@ -74,13 +78,14 @@ class LogicController {
             st.changeLiftExactLocation(1);
         } else{
             timer = 5;
+            direction = 0;
             goTo2.unpress(goTo2);
             st.changeLiftPos(2);
             st.changeBellState();
-            st.changeDoorState();
+            st.openDoor();
             st.changeBellState();
-            st.changeLiftContent();
-            st.changeDoorState();
+            st.removeLiftContent();
+            //st.changeDoorState();
             processStack();
         }
     }
@@ -91,24 +96,25 @@ class LogicController {
             st.changeLiftExactLocation(-1);
         } else{
             timer = 5;
+            direction = 0;
             goTo1.unpress(goTo1);
             st.changeLiftPos(1);
             st.changeBellState();
-            st.changeDoorState();
+            st.openDoor();
             st.changeBellState();
-            st.changeLiftContent();
-            st.changeDoorState();
+            st.removeLiftContent();
+            //st.changeDoorState();
             processStack();
         }
     }
     public void move(){
-        if(goTo1.getState() || goTo2.getState()){
+        //if(){
             if(direction == 2){
                 moveUP();
             }
             else if(direction == 1){
                 moveDOWN();
             }
-        }
+       // }
     }
 }

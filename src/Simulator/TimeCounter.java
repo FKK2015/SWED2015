@@ -6,8 +6,6 @@
 package Simulator;
 
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -25,7 +23,8 @@ class TimeCounter {
         try {
             TimeUnit.SECONDS.sleep(1);
             currentTime++;
-            System.out.println(getTime());
+            st.setTime(currentTime);
+            //System.out.println(getTime());
         } catch (InterruptedException e) {
             //Handle exception
         }
