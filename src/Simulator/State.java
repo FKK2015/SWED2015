@@ -55,7 +55,7 @@ class State {
             {emptySpaceBetweenFloors," "," ",emptySpaceLift," "," \n"},
             {emptySpaceBetweenFloors," "," ",emptySpaceLift," "," \n"},
             {"  "+F1C+"  "+liftPositionDisplay+F1B," "," ",emptySpaceLift," "," \n"},
-            {floorGround,"=","=","=======","=","="+time+"\n"},
+            {floorGround,"=","=","=======","=","=|"+time+"|\n"},
                                 };
         picture[5-liftExactLocation][1] = leftDoor;
         picture[5-liftExactLocation][2] = bell;
