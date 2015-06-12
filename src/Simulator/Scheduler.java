@@ -12,41 +12,39 @@ import java.util.Random;
  * @author Kris
  */
 class Scheduler {
-    private int[] Tn_first;
-    private int[] Tn_second;
+    private int T1 = 0;
+    private int T2 = 0;
     private State st;
     
     public Scheduler(State st){
-        Tn_first = new int[] {5,0,20};
-        Tn_second = new int[] {5,0,20};
-        randInt(Tn_first);
-        randInt(Tn_second);
+        T1 = randInt(T1);
+        T2 = randInt(T2);
         this.st = st;
     }
     
     public int schedule(int t){
         int temp = 0;
-        if(t == Tn_first[1]){
+        if(t == T1){
             if(!st.getFloorContent(1)){
                 temp++;
             }
-            randInt(Tn_first);
+            T1 = randInt(T1);
         }
-        if(t == Tn_second[1]){
+        if(t == T2){
             if(!st.getFloorContent(2)){
                 temp += 2;
             }
-            randInt(Tn_second);
+            T2 = randInt(T2);
         }
         return temp;
     }
-    private void randInt(int[] input) {
+    private int randInt(int i) {
         Random rand = new Random();
-        int randomNum = rand.nextInt((input[2] - input[0]) + 1) + input[0];
-        input[1] = randomNum;
-        input[0] += input[1];
-        input[2] += input[1];
-        System.out.println(input[0] + " " + input[1] + " " + input[2]);
+        int randomNum = rand.nextInt((i+20) - (i+5) + 1) + (i+5);
+        System.out.print((i+5)+" | ");
+        System.out.print(randomNum+" | ");
+        System.out.println((i+20));
+        return randomNum;
 }
     public boolean checkFloor(Floor f){
         return true;

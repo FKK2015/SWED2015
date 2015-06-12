@@ -5,19 +5,27 @@
  */
 package Simulator;
 
-import java.util.Stack;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.ListIterator;
+import java.util.Map;
 
 /**
  *
  * @author Kris
  */
 class LogicController {
-    private Stack myStack = new Stack();
+    //private Stack myStack = new Stack();
+    //private List<Floor> calls = new ArrayList<>();
+    private Floor[] calls = new Floor[]{null,null,null};
     private State st;
     private int timer = 5;
     private int direction = 0;
     private LiftButton goTo1;
     private LiftButton goTo2;
+    private Floor tempFloor;
     
     public LogicController(State st){
         this.st = st;
@@ -26,21 +34,64 @@ class LogicController {
     }
     
     public void processButton(Floor f){
-        myStack.push(f);
+        calls[f.getName()] = f;
+        //calls.add(f);
         //System.out.println("Passenger at " + f.getContent().getPosition() + " in call queue.");
-        if(timer == 5){
-            processStack();
+        if(timer == 5 && direction == 0){
+            processCalls();
         }
     }
     //public void processButton(LiftButton lb){}
-    public void processStack(){
+    public void processCalls(){
         //System.out.println("Checking if someone is waiting");
-        if(!myStack.isEmpty()){
-            //System.out.println("Someone is waiting...");
-            Floor tempFloor = (Floor) myStack.pop();
-            Passenger tempPassanger = tempFloor.getContent();
-            if(tempFloor.getContent().getPosition() == st.getLiftPos()){
-                //System.out.println("Oh, he is here...");
+        if(calls[st.getLiftPos()] != null){
+            tempFloor = calls[st.getLiftPos()];
+            calls[st.getLiftPos()] = null;
+            if(!st.getDoorState()){
+                    st.openDoor();
+                }
+            if(tempFloor.getContent().getDestination() == 1){
+                    tempFloor.clearContent();
+                    st.addLiftContent();
+                    goTo1.press(goTo1);
+                    direction = goTo1.getDestination();
+            }else if(tempFloor.getContent().getDestination() == 2){
+                    tempFloor.clearContent();
+                    st.addLiftContent();
+                    goTo2.press(goTo2);
+                    direction = goTo2.getDestination();
+            }else{
+                    System.out.println("Error!");
+            }
+            st.closeDoor();
+            tempFloor.getFB().unpress(tempFloor.getFB());
+        }
+        else if(calls[st.getLiftPos()] == null){
+            for(Floor temp : calls){
+                if(temp != null){
+                    tempFloor = temp;
+                    direction = tempFloor.getContent().getPosition();
+                    st.closeDoor();
+                    return;
+                }
+            }
+            direction = 0;
+            st.closeDoor();
+        }
+        else{
+            System.out.println("Error!");
+        }
+        /*if(!calls.isEmpty()){
+            System.out.println("Someone is waiting...");
+            for(int i = 0; i < calls.size(); i++){
+                if(calls.get(i).getName() == st.getLiftPos()){
+                    System.out.println("Found one!");
+                    tempFloor = calls.remove(i);
+                }
+            }
+            if(tempFloor != null){
+                System.out.println("Oh, he is here...");
+                //Passenger tempPassanger = tempFloor.getContent();
                 if(!st.getDoorState()){
                     st.openDoor();
                 }
@@ -61,7 +112,8 @@ class LogicController {
                 tempFloor.getFB().unpress(tempFloor.getFB());
                 //move();
             }else{
-                //System.out.println("Someone is waiting  but elsewhere...");
+                System.out.println("Someone is waiting  but elsewhere...");
+                tempFloor = calls.remove(0);
                 direction = tempFloor.getContent().getPosition();
                 st.closeDoor();
                 //move();
@@ -69,7 +121,7 @@ class LogicController {
         }else{
             direction = 0;
             st.closeDoor();
-        }
+        }*/
     }
     public void moveUP(){
         if(timer > 0){
@@ -84,9 +136,10 @@ class LogicController {
             st.changeBellState();
             st.openDoor();
             st.changeBellState();
-            st.removeLiftContent();
-            //st.changeDoorState();
-            processStack();
+            if(st.getLiftContent()){
+                st.removeLiftContent();
+            }
+            processCalls();
         }
     }
     public void moveDOWN(){
@@ -102,9 +155,10 @@ class LogicController {
             st.changeBellState();
             st.openDoor();
             st.changeBellState();
-            st.removeLiftContent();
-            //st.changeDoorState();
-            processStack();
+            if(st.getLiftContent()){
+                st.removeLiftContent();
+            }
+            processCalls();
         }
     }
     public void move(){

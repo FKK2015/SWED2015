@@ -21,7 +21,7 @@ class State {
     private boolean bellState = false;
     private boolean floor1ButtonState = false;
     private boolean floor2ButtonState= false;
-    private boolean[] floorContent = new boolean[2];
+    private boolean[] floorContent = new boolean[]{false,false};
     private boolean liftContent = false;
     private int liftPos = 1;
     private boolean liftButtonTo1State = false;
@@ -220,6 +220,9 @@ class State {
     }
     public boolean getDoorState(){
         return doorState;
+    }
+    public boolean getLiftContent(){
+        return liftContent;
     }
     
 }

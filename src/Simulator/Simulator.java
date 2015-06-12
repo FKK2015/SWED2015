@@ -17,6 +17,8 @@ public class Simulator {
     private Scheduler scheduler;
     private State state = new State();
     private LogicController logicC;
+    private Passenger tmp1;
+    private Passenger tmp2;
     
     public Simulator(){
         firstF = new Floor(1,state);
@@ -32,18 +34,18 @@ public class Simulator {
             logicC.move();
             switch (scheduler.schedule(timer.getTime())){
                 case 1:
-                    Passenger p = new Passenger(2,1);
-                    firstF.addContent(p, logicC);
+                    tmp1 = new Passenger(2,1);
+                    firstF.addContent(tmp1, logicC);
                     break;
                 case 2:
-                    p = new Passenger(1,2);
-                    secondF.addContent(p, logicC);
+                    tmp2 = new Passenger(1,2);
+                    secondF.addContent(tmp2, logicC);
                     break;
                 case 3:
-                    p = new Passenger(2,1);
-                    firstF.addContent(p, logicC);
-                    p = new Passenger(1,2);
-                    secondF.addContent(p, logicC);
+                    tmp1 = new Passenger(2,1);
+                    firstF.addContent(tmp1, logicC);
+                    tmp2 = new Passenger(1,2);
+                    secondF.addContent(tmp2, logicC);
                     break;
                 default:
                     break;
