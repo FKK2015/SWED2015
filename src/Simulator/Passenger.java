@@ -12,10 +12,16 @@ package Simulator;
 class Passenger {
     private int destination;
     private int position;
+    private int[] stats;
+    private static int num;
     
-    public Passenger(int d, int p){
+    public Passenger(int d, int p, int s){
         destination = d;
         position = p;
+        stats = new int[3];
+        num++;
+        stats[0] = num;
+        stats[1] = s;
     }
     public void setPosition(int p){
         position = p;
@@ -28,5 +34,22 @@ class Passenger {
     }
     public int getDestination(){
         return destination;
+    }
+    public void setStat(int stat){
+        stats[2] = stat;
+    }
+    public String getStats(){
+        return (String.valueOf(stats[0])+' '+String.valueOf(stats[1])+' '+String.valueOf(stats[2]));
+    }
+    public int getStat(int stat){
+        if(stat == 0){
+            return stats[0];
+        }
+        else if(stat == 1){
+            return stats[1];
+        }
+        else{
+            return stats[2];
+        }
     }
 }

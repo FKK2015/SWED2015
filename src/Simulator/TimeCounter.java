@@ -21,10 +21,10 @@ class TimeCounter {
     
     public void count1Sec(){
         try {
+            st.isIdle();
             TimeUnit.SECONDS.sleep(1);
             currentTime++;
             st.setTime(currentTime);
-            //System.out.println(getTime());
         } catch (InterruptedException e) {
             //Handle exception
         }

@@ -5,9 +5,9 @@
  */
 package Simulator;
 
-import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -17,10 +17,19 @@ import java.util.logging.Logger;
  * @author Kris
  */
 class State {
+   
+    static File f = new File("statistics.txt");
+    static FileWriter fw;
+    
+    private int usersF1 = 0;
+    private int usersF2 = 0;
+    private double avg_time = 0.;
+    private double wait_time = 0;
+    private int idle_time = 0;
     private boolean doorState = false;
     private boolean bellState = false;
     private boolean floor1ButtonState = false;
-    private boolean floor2ButtonState= false;
+    private boolean floor2ButtonState = false;
     private boolean[] floorContent = new boolean[]{false,false};
     private boolean liftContent = false;
     private int liftPos = 1;
@@ -28,6 +37,7 @@ class State {
     private boolean liftButtonTo2State = false;
     private int liftExactLocation = 0;
     private int time = 0;
+    private Passenger pInLift;
     
     private String emptyFloor = "       ";
     private String F1C = "       ";
@@ -55,7 +65,9 @@ class State {
             {emptySpaceBetweenFloors," "," ",emptySpaceLift," "," \n"},
             {emptySpaceBetweenFloors," "," ",emptySpaceLift," "," \n"},
             {"  "+F1C+"  "+liftPositionDisplay+F1B," "," ",emptySpaceLift," "," \n"},
-            {floorGround,"=","=","=======","=","=|"+time+"|\n"},
+            {floorGround,"=","=","=======","=","=|"+String.valueOf(time)+"|\n"},
+            {"users on F2: ",String.valueOf(usersF2)," | ","avg waiting time: ",String.valueOf(avg_time),"\n"},
+            {"users on F1: ",String.valueOf(usersF1)," | ","idle time: ",String.valueOf(idle_time),"\n"}
                                 };
         picture[5-liftExactLocation][1] = leftDoor;
         picture[5-liftExactLocation][2] = bell;
@@ -64,7 +76,7 @@ class State {
         picture[5-liftExactLocation][5] = rightDoor;
         for (String[] picture1 : picture) {
             System.out.print(picture1[0]);
-            for (int j = 1; j < picture1.length; j++) {
+            for (int j = 1; j < picture1.length; j++) {//length = 8
                 System.out.print(picture1[j]);
             }
         }
@@ -72,7 +84,7 @@ class State {
         System.out.println("/////////////////////////////////");
         System.out.println();
         try {
-            TimeUnit.SECONDS.sleep(1);
+            TimeUnit.MILLISECONDS.sleep(250);
         } catch (InterruptedException ex) {
             Logger.getLogger(State.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -121,6 +133,7 @@ class State {
         floor1ButtonState = true;
         //System.out.println("Floor 1 button is pressed.");
         F1B = "FB1";
+        usersF1++;
         print();
     }
     public void F1buttonOFF(){
@@ -133,6 +146,7 @@ class State {
         floor2ButtonState = true;
         //System.out.println("Floor 2 button is pressed.");
         F2B = "FB2";
+        usersF2++;
         print();
     } 
     public void F2buttonOFF(){
@@ -172,14 +186,27 @@ class State {
         }
         print();
     }
-    public void addLiftContent(){
+    public void addLiftContent(Passenger p){
         liftContent = true;
+        pInLift = p;
         //System.out.println("Lift full.");
         liftC = passanger;
         print();
     }
     public void removeLiftContent(){
         liftContent = false;
+        //System.out.println("haha");
+        pInLift.setStat(time);
+        wait_time += (pInLift.getStat(2)-pInLift.getStat(1));
+        avg_time = wait_time / pInLift.getStat(0);
+        try{
+            fw = new FileWriter(f,true);
+            fw.write(pInLift.getStats());
+            fw.write(System.getProperty("line.separator"));
+            fw.close();
+        }catch(IOException e){
+            System.out.println(""+e.toString());
+	}
         //System.out.println("Lift empty.");
         liftC = emptySpaceLift;
         print();
@@ -224,5 +251,12 @@ class State {
     public boolean getLiftContent(){
         return liftContent;
     }
-    
+    public void closeWriter() throws IOException{
+        fw.close();
+    }   
+    public void isIdle(){
+        if (!(liftButtonTo1State || liftButtonTo2State || floor1ButtonState || floor2ButtonState)){
+            idle_time++;
+        }
+    }
 }

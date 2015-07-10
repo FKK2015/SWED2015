@@ -5,13 +5,6 @@
  */
 package Simulator;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.List;
-import java.util.ListIterator;
-import java.util.Map;
-
 /**
  *
  * @author Kris
@@ -51,13 +44,13 @@ class LogicController {
                     st.openDoor();
                 }
             if(tempFloor.getContent().getDestination() == 1){
+                    st.addLiftContent(tempFloor.getContent());
                     tempFloor.clearContent();
-                    st.addLiftContent();
                     goTo1.press(goTo1);
                     direction = goTo1.getDestination();
             }else if(tempFloor.getContent().getDestination() == 2){
-                    tempFloor.clearContent();
-                    st.addLiftContent();
+                    st.addLiftContent(tempFloor.getContent());
+                                        tempFloor.clearContent();
                     goTo2.press(goTo2);
                     direction = goTo2.getDestination();
             }else{
@@ -81,47 +74,6 @@ class LogicController {
         else{
             System.out.println("Error!");
         }
-        /*if(!calls.isEmpty()){
-            System.out.println("Someone is waiting...");
-            for(int i = 0; i < calls.size(); i++){
-                if(calls.get(i).getName() == st.getLiftPos()){
-                    System.out.println("Found one!");
-                    tempFloor = calls.remove(i);
-                }
-            }
-            if(tempFloor != null){
-                System.out.println("Oh, he is here...");
-                //Passenger tempPassanger = tempFloor.getContent();
-                if(!st.getDoorState()){
-                    st.openDoor();
-                }
-                if(tempFloor.getContent().getDestination() == 1){
-                    tempFloor.clearContent();
-                    st.addLiftContent();
-                    goTo1.press(goTo1);
-                    direction = goTo1.getDestination();
-                }else if(tempFloor.getContent().getDestination() == 2){
-                    tempFloor.clearContent();
-                    st.addLiftContent();
-                    goTo2.press(goTo2);
-                    direction = goTo2.getDestination();
-                }else{
-                    System.out.println("Error!");
-                }
-                st.closeDoor();
-                tempFloor.getFB().unpress(tempFloor.getFB());
-                //move();
-            }else{
-                System.out.println("Someone is waiting  but elsewhere...");
-                tempFloor = calls.remove(0);
-                direction = tempFloor.getContent().getPosition();
-                st.closeDoor();
-                //move();
-            }
-        }else{
-            direction = 0;
-            st.closeDoor();
-        }*/
     }
     public void moveUP(){
         if(timer > 0){
@@ -170,5 +122,8 @@ class LogicController {
                 moveDOWN();
             }
        // }
+    }
+    public int getDirection(){
+        return direction;
     }
 }
