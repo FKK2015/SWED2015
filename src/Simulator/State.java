@@ -8,9 +8,15 @@ package Simulator;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.sql.Date;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  *
@@ -18,8 +24,17 @@ import java.util.logging.Logger;
  */
 class State {
    
-    static File f = new File("statistics.txt");
-    static FileWriter fw;
+    DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
+    Calendar cal = Calendar.getInstance();
+    Date currdate;
+    File f;
+    FileWriter fw;
+
+    public State(){
+    	String s = dateFormat.format(cal.getTime())+".csv"; //2014/08/06 16:00:22
+    	System.out.println(s);
+    	f = new File(s);
+    }
     
     private int usersF1 = 0;
     private int usersF2 = 0;
@@ -80,9 +95,10 @@ class State {
                 System.out.print(picture1[j]);
             }
         }
-        System.out.println();
         System.out.println("/////////////////////////////////");
-        System.out.println();
+        System.out.println("/////////////////////////////////");
+        System.out.println("/////////////////////////////////");
+        System.out.println("/////////////////////////////////");
         try {
             TimeUnit.MILLISECONDS.sleep(250);
         } catch (InterruptedException ex) {
@@ -259,4 +275,5 @@ class State {
             idle_time++;
         }
     }
+    
 }
