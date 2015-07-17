@@ -39,7 +39,7 @@ class Passenger {
         stats[2] = stat;
     }
     public String getStats(){
-        return (String.valueOf(stats[0])+' '+String.valueOf(stats[1])+' '+String.valueOf(stats[2]));
+        return (String.valueOf(stats[0])+','+String.valueOf(stats[1])+','+String.valueOf(stats[2]));
     }
     public int getStat(int stat){
         if(stat == 0){

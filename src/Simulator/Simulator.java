@@ -5,24 +5,18 @@
  */
 package Simulator;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
  * @author K&K
  */
-public class Simulator {
+public class Simulator{
     
     private Floor firstF;
     private Floor secondF;
     private TimeCounter timer;
     private Scheduler scheduler;
-    //PrintWriter outfile;
     private State state = new State();
     private LogicController logicC;
     private Passenger tmp1;
@@ -36,8 +30,8 @@ public class Simulator {
         logicC = new LogicController(state);
     }
     
-    public void run() throws IOException{
-        while(true){
+    public void run(int dur) throws IOException{
+        while(timer.getTime() < dur){
             timer.count1Sec();
             logicC.move();
             switch (scheduler.schedule(timer.getTime())){
@@ -59,10 +53,12 @@ public class Simulator {
                     break;
             }
         }
+        state.addLogfile();
     }
-    public static void main(String[] args) throws IOException {
-        Simulator sim = new Simulator();
-        sim.run();
+    
+    public static void main(String[] args) throws IOException{
+        //Simulator sim = new Simulator();
+        //sim.run();
     }
     
 }

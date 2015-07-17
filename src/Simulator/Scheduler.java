@@ -41,9 +41,9 @@ class Scheduler {
     private int randInt(int i) {
         Random rand = new Random();
         int randomNum = rand.nextInt((i+20) - (i+5) + 1) + (i+5);
-        System.out.print((i+5)+" | ");
-        System.out.print(randomNum+" | ");
-        System.out.println((i+20));
+        //System.out.print((i+5)+" | ");
+        //System.out.print(randomNum+" | ");
+        //System.out.println((i+20));
         return randomNum;
 }
     public boolean checkFloor(Floor f){

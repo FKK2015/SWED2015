@@ -9,12 +9,11 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.sql.Date;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 
@@ -27,13 +26,15 @@ class State {
     DateFormat dateFormat = new SimpleDateFormat("yyyy_MM_dd_HH_mm_ss");
     Calendar cal = Calendar.getInstance();
     Date currdate;
-    File f;
+    File passangers, logfiles;
     FileWriter fw;
+    String passangersName;
 
     public State(){
-    	String s = dateFormat.format(cal.getTime())+".csv"; //2014/08/06 16:00:22
-    	System.out.println(s);
-    	f = new File(s);
+    	passangersName = dateFormat.format(cal.getTime())+".csv"; //2014/08/06 16:00:22
+    	//System.out.println(s);
+        logfiles = new File("logfiles.csv");
+    	passangers = new File(passangersName);
     }
     
     private int usersF1 = 0;
@@ -95,22 +96,15 @@ class State {
                 System.out.print(picture1[j]);
             }
         }
-        System.out.println("/////////////////////////////////");
-        System.out.println("/////////////////////////////////");
-        System.out.println("/////////////////////////////////");
-        System.out.println("/////////////////////////////////");
+        //System.out.println("/////////////////////////////////");
+        //System.out.println("/////////////////////////////////");
+        //System.out.println("/////////////////////////////////");
+        //System.out.println("/////////////////////////////////");
         try {
             TimeUnit.MILLISECONDS.sleep(250);
         } catch (InterruptedException ex) {
             Logger.getLogger(State.class.getName()).log(Level.SEVERE, null, ex);
         }
-        /*
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        try {
-            br.readLine();
-        } catch (IOException ex) {
-            Logger.getLogger(State.class.getName()).log(Level.SEVERE, null, ex);
-        }*/
     }
     public void changeLiftExactLocation(int i){
         liftExactLocation += i;
@@ -211,12 +205,11 @@ class State {
     }
     public void removeLiftContent(){
         liftContent = false;
-        //System.out.println("haha");
         pInLift.setStat(time);
         wait_time += (pInLift.getStat(2)-pInLift.getStat(1));
         avg_time = wait_time / pInLift.getStat(0);
         try{
-            fw = new FileWriter(f,true);
+            fw = new FileWriter(passangers,true);
             fw.write(pInLift.getStats());
             fw.write(System.getProperty("line.separator"));
             fw.close();
@@ -274,6 +267,16 @@ class State {
         if (!(liftButtonTo1State || liftButtonTo2State || floor1ButtonState || floor2ButtonState)){
             idle_time++;
         }
+    }
+    public void addLogfile(){
+        try{
+            fw = new FileWriter(logfiles,true);
+            fw.write(passangersName+','+avg_time+','+idle_time+','+usersF1+','+usersF2+','+String.valueOf(usersF1+usersF2));
+            fw.write(System.getProperty("line.separator"));
+            fw.close();
+        }catch(IOException e){
+            System.out.println(""+e.toString());
+	}
     }
     
 }
