@@ -54,6 +54,7 @@ public class SimulatorGUI extends javax.swing.JFrame {
         floor2UsersLabel = new javax.swing.JLabel();
         idelTimeLabel = new javax.swing.JLabel();
         totalUsersLabel = new javax.swing.JLabel();
+        inputDurSec = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Lift Simulator 1.0");
@@ -115,6 +116,8 @@ public class SimulatorGUI extends javax.swing.JFrame {
 
         totalUsersLabel.setText("Total Users");
 
+        inputDurSec.setText("Duration [sec]");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -128,24 +131,22 @@ public class SimulatorGUI extends javax.swing.JFrame {
                             .addComponent(filenameLabel)
                             .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 181, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(waitingTimeLabel)
-                                .addGap(9, 9, 9)
-                                .addComponent(idelTimeLabel)
-                                .addGap(10, 10, 10)
-                                .addComponent(floor1UsersLabel)
-                                .addGap(14, 14, 14)
-                                .addComponent(floor2UsersLabel))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(9, 9, 9)
-                                .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(10, 10, 10)
-                                .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(waitingTimeLabel)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(9, 9, 9)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(idelTimeLabel, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jScrollPane5, javax.swing.GroupLayout.PREFERRED_SIZE, 62, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(10, 10, 10)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(floor1UsersLabel)
+                            .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 57, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.CENTER)
+                            .addComponent(floor2UsersLabel)
+                            .addComponent(jScrollPane6, javax.swing.GroupLayout.PREFERRED_SIZE, 46, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(14, 14, 14)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(totalUsersLabel)))
@@ -154,13 +155,15 @@ public class SimulatorGUI extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(inputDur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(labelDur, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                        .addComponent(labelDur, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addGap(18, 18, 18)
+                        .addComponent(inputDurSec)))
                 .addContainerGap(84, Short.MAX_VALUE))
         );
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {Start, Statistics});
 
-        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {inputDur, labelDur});
+        layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {inputDur, inputDurSec, labelDur});
 
         layout.linkSize(javax.swing.SwingConstants.HORIZONTAL, new java.awt.Component[] {floor1UsersLabel, floor2UsersLabel, idelTimeLabel, jScrollPane2, jScrollPane3, jScrollPane4, jScrollPane5, jScrollPane6, totalUsersLabel, waitingTimeLabel});
 
@@ -170,16 +173,17 @@ public class SimulatorGUI extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Start)
                     .addComponent(inputDur, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(labelDur))
+                    .addComponent(labelDur)
+                    .addComponent(inputDurSec))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(Statistics)
                     .addComponent(filenameLabel)
                     .addComponent(waitingTimeLabel)
-                    .addComponent(floor2UsersLabel)
                     .addComponent(floor1UsersLabel)
                     .addComponent(idelTimeLabel)
-                    .addComponent(totalUsersLabel))
+                    .addComponent(totalUsersLabel)
+                    .addComponent(floor2UsersLabel))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -196,8 +200,10 @@ public class SimulatorGUI extends javax.swing.JFrame {
 
     private void StartActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_StartActionPerformed
         try {
-            int dur = Integer.parseInt(inputDur.getText());
-            mySim.run(dur*60);
+            float dur = Float.parseFloat(inputDur.getText());
+            int durSec = Math.round(dur*60);
+            inputDurSec.setText(String.valueOf(durSec)+" sec");
+            mySim.run(durSec);
         } catch (IOException ex) {
             Logger.getLogger(SimulatorGUI.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -272,6 +278,7 @@ public class SimulatorGUI extends javax.swing.JFrame {
     private javax.swing.JLabel idelTimeLabel;
     private javax.swing.JTextArea idleTime;
     private javax.swing.JTextField inputDur;
+    private javax.swing.JLabel inputDurSec;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
